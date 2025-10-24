@@ -8,25 +8,27 @@ Ao desenvolver este projeto, os seguintes objetivos foram alcançados:
  * Aplicar Conceitos: Utilização dos serviços AWS (EC2, S3, Lambda, EBS) em um ambiente prático.
  * Documentar Processos: Criação de um repositório organizado e um README.md detalhado para documentação técnica.
  * Utilizar GitHub: Uso da plataforma para versionamento e compartilhamento do material de apoio.
+
 🏗️ 2. Arquitetura Proposta: S3, EC2, Lambda e EBS
 O diagrama a seguir ilustra uma arquitetura para um cenário de processamento de arquivos que exige tanto capacidade serverless (Lambda) para tarefas leves quanto capacidade dedicada (EC2) para processamento pesado.
 ![Diagrama da Arquitetura AWS](images/Diagrama AWS.drawio.png)
 2.1. Descrição e Fluxo da Solução
 1. Usuário (User) e Amazon S3:
-   * Função: O Amazon S3 (Simple Storage Service) é utilizado como o ponto de entrada (Bucket de Upload) para o armazenamento de objetos brutos (arquivos, logs, mídia).
-   * Fluxo: O User inicia o processo ao realizar o Upload do arquivo para o S3.
+  * Função: O Amazon S3 (Simple Storage Service) é utilizado como o ponto de entrada (Bucket de Upload) para o armazenamento de objetos brutos (arquivos, logs, mídia).
+  * Fluxo: O User inicia o processo ao realizar o Upload do arquivo para o S3.
 2. Amazon EC2 (Elastic Compute Cloud):
-   * Função: A instância EC2 é o principal recurso de processamento (Processamento). Ela é necessária para tarefas que exigem um longo tempo de execução, recursos de CPU/Memória dedicados, ou softwares que precisam ser instalados em um sistema operacional específico.
-   * Fluxo: Após o Upload no S3, a EC2 é notificada (ou acionada por um serviço intermediário como SQS ou SNS) para iniciar o processamento do arquivo.
+  * Função: A instância EC2 é o principal recurso de processamento (Processamento). Ela é necessária para tarefas que exigem um longo tempo de execução, recursos de CPU/Memória dedicados, ou softwares que precisam ser instalados em um sistema operacional específico.
+  * Fluxo: Após o Upload no S3, a EC2 é notificada (ou acionada por um serviço intermediário como SQS ou SNS) para iniciar o processamento do arquivo.
 3. Amazon EBS (Elastic Block Store):
-   * Função: O EBS fornece volumes de armazenamento em bloco persistente que são anexados à instância EC2. É essencial para o armazenamento do sistema operacional e de quaisquer dados que precisem de durabilidade e baixa latência para o EC2.
-   * Fluxo: O fluxo Armazenamento representa a dependência direta do EC2 no seu volume EBS para persistência dos dados e do sistema.
+  * Função: O EBS fornece volumes de armazenamento em bloco persistente que são anexados à instância EC2. É essencial para o armazenamento do sistema operacional e de quaisquer dados que precisem de durabilidade e baixa latência para o EC2.
+  * Fluxo: O fluxo Armazenamento representa a dependência direta do EC2 no seu volume EBS para persistência dos dados e do sistema.
 4. AWS Lambda Function:
-   * Função: A Lambda Function é responsável por tarefas leves e reativas. No fluxo, ela é acionada após o processo principal.
-   * Fluxo: Após o EC2 concluir o Processamento e o Armazenamento dos resultados no EBS, a Lambda é acionada (pela própria EC2, por um evento de shutdown da EC2, ou por um evento no EBS/S3 de resultados) para realizar ações como:
-   * Enviar notificações ao usuário.
-   * Limpar metadados.
-   * Atualizar status em um banco de dados.
+  * Função: A Lambda Function é responsável por tarefas leves e reativas. No fluxo, ela é acionada após o processo principal.
+  * Fluxo: Após o EC2 concluir o Processamento e o Armazenamento dos resultados no EBS, a Lambda é acionada (pela própria EC2, por um evento de shutdown da EC2, ou por um evento no EBS/S3 de resultados) para realizar ações como:
+  * Enviar notificações ao usuário.
+  * Limpar metadados.
+  * Atualizar status em um banco de dados.
+
 📚 3. Insights e Anotações sobre Gerenciamento de EC2
 Esta seção consolida os aprendizados e pontos-chave adquiridos durante a prática com o Amazon EC2, focando em como configurar e gerenciar as instâncias de forma eficiente.
 3.1. Provisionamento e Configuração
