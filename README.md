@@ -41,6 +41,7 @@ Esta seção consolida os aprendizados e pontos-chave adquiridos durante a prát
 3.2. Armazenamento Persistente (EBS)
   * Durabilidade: O volume EBS fornece durabilidade e persistência de dados, diferente do armazenamento de instância (Ephemeral Storage). Mesmo que a instância EC2 seja encerrada, o volume EBS pode ser desanexado e reanexado a outra instância.
   * Backup: A criação de Snapshots do EBS é o método primário para backup pontual do volume, garantindo a recuperação em caso de falha.
+
 3.3. Comandos e Ações Chave
   * Conexão SSH: O comando básico para acesso é ssh -i minha-chave.pem ec2-user@<IP_PÚBLICO>.
   * Gerenciamento do Ciclo de Vida: A diferença entre Parar (Stop) e Encerrar (Terminate) uma instância é crítica. Parar mantém o volume EBS e o IP Público (se alocado) e é ideal para economizar custos. Encerrar apaga a instância e, por padrão, o volume de boot.
